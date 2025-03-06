@@ -11,7 +11,7 @@ lapply(packages, library, character.only = TRUE)
 
 data <- read.table(file = "gym_members_exercise_tracking.csv", header = TRUE, sep = ",")
 
-# Описовий аналіз для кожної змінної
+#################################### Описовий аналіз для кожної змінної #############################
 # Визначимо тип змінних (якісна/кількісна)
 str(data)
 summary(data)
@@ -24,9 +24,14 @@ Median = sapply(data[, quant_vars], median, na.rm = TRUE)
 SD = sapply(data[, quant_vars], sd, na.rm = TRUE)
 
 # Для якісних змінних
-cat_vars <- sapply(data, is.factor)
-cat_frequencies <- lapply(data[, cat_vars, drop = FALSE], table)
-cat_frequencies
+categorical_vars <- data[sapply(data, is.factor) | sapply(data, is.character)]
+
+for (col in names(categorical_vars)) {
+  cat("Частоти для змінної:", col, "\n")
+  print(table(categorical_vars[[col]]))
+  cat("\n")
+}
+
 
 #Розвідувальний аналіз
 
