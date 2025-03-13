@@ -10,10 +10,11 @@ install.packages(packages)
 
 # Load packages
 lapply(packages, library, character.only = TRUE)
-setwd("C:/Users/Cyberpower/r_studio/ukma/big_data_analytics")
-data <- read.table(file = "data/gym_members_exercise_tracking.csv", header = TRUE, sep = ",")
-data
-# Описовий аналіз для кожної змінної
+
+
+data <- read.table(file = "gym_members_exercise_tracking.csv", header = TRUE, sep = ",")
+
+
 # Визначимо тип змінних (якісна/кількісна)
 str(data)
 summary(data)
@@ -26,9 +27,14 @@ Median = sapply(data[, quant_vars], median, na.rm = TRUE)
 SD = sapply(data[, quant_vars], sd, na.rm = TRUE)
 
 # Для якісних змінних
-cat_vars <- sapply(data, is.factor)
-cat_frequencies <- lapply(data[, cat_vars, drop = FALSE], table)
-cat_frequencies
+categorical_vars <- data[sapply(data, is.factor) | sapply(data, is.character)]
+
+for (col in names(categorical_vars)) {
+  cat("Частоти для змінної:", col, "\n")
+  print(table(categorical_vars[[col]]))
+  cat("\n")
+}
+
 
 #Розвідувальний аналіз
 
